@@ -1,0 +1,102 @@
+<!-- This example is used to show that we can read raw messages (without the data format of event sources) and stream markdown
+The event source added the subtle extra problem of corrupting newlines and spaces
+this is just a reference control case
+we are also showing the trick of rendering the markdown from the accumulated text 
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Text Response Stream</title>
+    <style>
+      #output {
+        white-space: pre-wrap; /* Preserve white space and newlines */
+        font-family: monospace;
+        padding: 20px;
+        border: 1px solid #ccc;
+        background-color: #f9f9f9;
+        max-width: 600px;
+        margin: 20px auto;
+      }
+      #markdown {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+      pre {
+        padding: 10px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        overflow-x: auto;
+      }
+      code {
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div id="markdown"></div>
+      <div id="output"></div>
+    </div>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script type="module">
+      import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
+
+      marked.setOptions({
+        highlight: function (code, lang) {
+          return hljs.highlightAuto(code, [lang]).value;
+        },
+      });
+
+      function updateMarkdown(content) {
+        const markdownDiv = document.getElementById("markdown");
+        markdownDiv.innerHTML = marked(content);
+      }
+
+      async function connectToStream() {
+        try {
+          const response = await fetch(
+            "http://127.0.0.1:5009/ask?question=please-send-me-a-basic-react-program-example-and-explanation&encode=false&raw=true"
+          );
+
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder("utf-8");
+          const outputDiv = document.getElementById("output");
+          let result = "";
+
+          while (true) {
+            const { done, value } = await reader.read();
+
+            if (done) {
+              console.log("Stream complete");
+              break;
+            }
+
+            result += decoder.decode(value, { stream: true });
+
+            outputDiv.textContent = result;
+
+            updateMarkdown(result);
+          }
+        } catch (error) {
+          console.error("Fetch error:", error);
+        }
+      }
+
+      connectToStream();
+    </script>
+  </body>
+</html>

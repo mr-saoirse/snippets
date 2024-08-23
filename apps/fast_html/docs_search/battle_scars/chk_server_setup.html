@@ -1,0 +1,70 @@
+<!-- This example is not very import 
+ - just checking the raw html styling and an exec in a fresh html page when connecting to the fastapi backend 
+ - should generate a response to the question
+ - the styling check was done because i wanted to confirm the pico style conflicts with some things and needs to be disabled
+ -->
+
+<html>
+  <head>
+    <title>FastHTML page</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <script src="https://unpkg.com/htmx.org@next/dist/htmx.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/answerdotai/surreal@main/surreal.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/gnat/css-scope-inline@main/script.js"></script>
+    <script src="https://unpkg.com/htmx-ext-sse@2.2.2/sse.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+    />
+  </head>
+  <body reload-attempts="1" reload-interval="1000">
+    <div
+      class="relative flex justify-center max-w-xl flex-col mx-auto items-center h-screen"
+    >
+      <div class="w-full absolute top-1/4">
+        <form enctype="multipart/form-data" hx-post="/">
+          <fieldset role="group">
+            <input
+              hx-swap-oob="true"
+              placeholder="Ask a question about FastHTML..."
+              id="question"
+              class="pl-4 p-2 rounded-l-full border border-gray-300 focus:outline-none w-[90%] font-serif text-stone-600 font-medium"
+              name="question"
+            />
+            <button
+              class="p-2 bg-stone-400 text-white ml-2 border border-stone-100 hover:border hover:border-stone-300"
+            >
+              Go
+            </button>
+          </fieldset>
+        </form>
+        <div class="p-5">
+          <div class="font-serif text-stone-600 font-medium">
+            <div
+              hx-ext="sse"
+              sse-connect="http://localhost:5009/ask?question=what%20is%20the%20capital%20of%20ireland&encode=false"
+              id="sse"
+            >
+              <div
+                sse-swap="message"
+                hx-target="#canvas"
+                hx-swap="beforeend"
+              ></div>
+              <div
+                sse-swap="completed"
+                hx-target="#sse"
+                hx-swap="outerHTML"
+              ></div>
+            </div>
+          </div>
+          <div id="canvas"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

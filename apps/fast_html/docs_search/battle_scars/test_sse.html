@@ -1,0 +1,21 @@
+<!-- this example just tests the SSE swap idea to terminate the connection
+Its very important to use the outer hx-swap="outerHTML" to remove the entire control
+otherwise it could be invisible but keep the connection open (and waste resources or credits)
+This uses a dummy stream to illustrate - if it works, the streaming terminates otherwise it will keep generating output.
+
+we emulate this in the FastHTML example but add a real agent and also markdown
+-->
+<!DOCTYPE html5>
+<head>
+  <script src="https://unpkg.com/htmx.org@1.8.6"></script>
+  <script src="https://unpkg.com/htmx.org/dist/ext/sse.js"></script>
+</head>
+<body>
+  <p>Testing TMX SSE</p>
+  <div id="sse" hx-ext="sse" sse-connect="http://localhost:5009/dummy">
+    <div sse-swap="message" hx-target="#benchmark" hx-swap="beforeend"></div>
+    <div sse-swap="completed" hx-target="#sse" hx-swap="outerHTML"></div>
+  </div>
+
+  <div id="benchmark"></div>
+</body>

@@ -1,0 +1,74 @@
+<!-- This example shows that we can get the event source to work even we base 64 encode and decode
+otherwise the data format for these events screws with the markdown newlines and spaces
+the url parameter controls if the server encodes or not -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Streaming Markdown Renderer</title>
+    <style>
+      #markdown {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+      pre {
+        padding: 10px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        overflow-x: auto;
+      }
+      code {
+        font-family: monospace;
+      }
+      #staging {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        white-space: pre-wrap; /* Ensure white space is preserved */
+      }
+    </style>
+  </head>
+  <body>
+    <div id="markdown"></div>
+    <div id="staging"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script type="module">
+      import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
+
+      const eventSource = new EventSource(
+        "http://localhost:5009/ask?question=please-send-me-a-basic-react-program-example-and-explanation"
+      );
+      let markdownContent = ""; // Accumulate the data here
+      const stageDiv = document.getElementById("staging");
+      const decoder = new TextDecoder("utf-8");
+
+      eventSource.onmessage = function (event) {
+        //base 64 encoded events
+        console.log(event.data);
+        console.log(atob(event.data));
+        markdownContent += atob(event.data);
+        stageDiv.innerText = markdownContent;
+        updateMarkdown(markdownContent);
+      };
+
+      eventSource.onerror = function () {
+        console.error("Failed to receive data from the stream.");
+        eventSource.close(); // Close the connection on error
+      };
+
+      function updateMarkdown(content) {
+        const markdownDiv = document.getElementById("markdown");
+        markdownDiv.innerHTML = marked(content);
+      }
+    </script>
+  </body>
+</html>
