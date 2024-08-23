@@ -1,6 +1,6 @@
 import json, openai, typing
 from pydantic import BaseModel
-
+from pathlib import Path
 
 
 """
@@ -99,12 +99,15 @@ def _get_function_call_or_stream(
 
 class VectorStore:
     def __init__(self):
-        pass
+        import lancedb
+        db_home = f"{Path(__file__).parent}/data"
+        self._db = lancedb.connect(db_home)
+        self._table = self._db.open_table('fast_html_help')
+
     
-    def __call__(self, question:str) -> typing.List[str]:
+    def __call__(self, question:str) -> typing.List[dict]:
         """run a vector search"""
-        return {"response": "actual there was nothing found just use general knowledge to answer the question"}
-    
+        return self._table.search(question).select(['text']).to_list()
 
 class GptModel:
 
