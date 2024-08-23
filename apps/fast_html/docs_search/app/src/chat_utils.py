@@ -100,14 +100,22 @@ def _get_function_call_or_stream(
 class VectorStore:
     def __init__(self):
         import lancedb
-        db_home = f"{Path(__file__).parent}/data"
+        db_home = f"{Path(__file__).parent.parent}/data"
         self._db = lancedb.connect(db_home)
         self._table = self._db.open_table('fast_html_help')
 
     
     def __call__(self, question:str) -> typing.List[dict]:
         """run a vector search"""
-        return self._table.search(question).select(['text']).to_list()
+        results = self._table.search(question).select(['text']).to_list()
+        
+        if not len(results):
+            return {'status': "there were no results found - please use general knowledge to answer the users question"}
+        
+        return {
+            'status': 'found some data sorted by distance / quality - please use the data to answer the users question',
+            'results': results
+        }
 
 class GptModel:
 
@@ -125,7 +133,7 @@ class GptModel:
             token_callback_action=token_callback_action,
         )
         
-    def __call__(self, question:str):
+    def __call__(self, question:str, is_streaming: bool=True):
         """
         this agent takes the question and does a vector search 
         - just assume its a question about FastHTML to make the choices simpler here
@@ -152,7 +160,7 @@ class GptModel:
             'role': 'user', 'content': GUIDE
         }]
         
-        return self.run(messages)
+        return self.run(messages,is_streaming=is_streaming)
     
 
     def run(
