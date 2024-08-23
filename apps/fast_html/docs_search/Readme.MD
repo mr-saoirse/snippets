@@ -1,6 +1,6 @@
 # Fast HTML Guide
 
-This repo accompanies the article [here]
+This repo accompanies the article [here](https://medium.com/@mrsirsh/first-encounter-with-fasthtml-building-a-fasthtml-assistant-fe896d3a3e60)
 
 It is created to illustrate getting started with FastHTML or rather, going beyond the basics to try and do things such as Server Sent Events as well as some basic styling and scripting. This Readme explains how to run the code and explains where the associated data came from. 
 
@@ -27,17 +27,23 @@ uvicorn server:app --port 5009 --reload
 import requests
 
 with requests.get(
-    'http://127.0.0.1:5009/ask',
+    'http://127.0.0.1:5009/ask?raw=true&encode=false',
     params={'question' : "please give an example of Seamus Heaney's poems with some example versus"}
 ) as r:
     for chunk in r.iter_content(1024):  # or, for line in r.iter_lines():
         print(chunk.decode(), end="")
-
-# curl request example
-# curl -X 'GET' \
-#   'http://127.0.0.1:5009/ask?question=what%20is%20the%20capital%20of%20ireland&prefers_streaming=false' \
-#   -H 'accept: application/json'
 ```
+
+or curl...
+
+```bash
+
+curl request example
+curl -X 'GET' \
+  'http://127.0.0.1:5009/ask?question=what%20is%20the%20capital%20of%20ireland&prefers_streaming=false&raw=true&encode=false' \
+  -H 'accept: application/json'
+```
+
 
 
 **Client**
