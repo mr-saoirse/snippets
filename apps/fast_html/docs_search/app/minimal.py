@@ -12,11 +12,6 @@ from pathlib import Path
 with open(f"{Path(__file__).parent}/scripts/module.js", 'r') as f:
     script = f.read()
     
-"""some styles"""
-# INPUT_STYLE = 'pl-4 p-2 rounded-l-full border border-gray-300 focus:outline-none w-200 font-serif text-stone-600 font-medium'
-# BUTTON_STYLE = 'p-2 bg-stone-400 text-white  ml-2 border border-stone-100 hover:border hover:border-stone-300'
-# tailwind = Script(src="https://cdn.tailwindcss.com")
-#bootstrap_icons = Link(rel='stylesheet', href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css")
 """we need both the style and script for highlighter"""
 highlighter = [Link(rel='stylesheet', href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css"), 
                Script(src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js')]
@@ -35,17 +30,15 @@ def sse_stream_components(question):
         Div(*[
             question,
             #this contains both the stream subscription and the swap out on completion
-            #BE SURE to use OuterHTML because inner would subtly hid the div but kept the subscription open
+            #BE sure to use OuterHTML because inner would subtly hide the div but keep the subscription open
             #you should confirm closed and node replace event in the console logs
             Div(sse_swap='message', hx_target='#canvas', hx_swap='beforeend'),
             Div(sse_swap='completed', hx_target='#sse', hx_swap='outerHTML' )],
             hx_ext='sse', 
             id="sse",
-            #this is temp to protect using tokens by mistake
             sse_connect=f'http://localhost:5009/ask?question={urllib.parse.quote(question)}' if question else ""  ))
 
     """return both the sse control and the canvas to write into"""
-    #, cls='font-serif text-stone-600 font-medium' 
     return sse, Div(  id='canvas', cls='marked' )
 
 
