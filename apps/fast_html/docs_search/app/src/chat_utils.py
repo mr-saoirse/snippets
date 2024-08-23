@@ -112,6 +112,8 @@ class VectorStore:
         if not len(results):
             return {'status': "there were no results found - please use general knowledge to answer the users question"}
         
+        print(f'fetch records {len(results)} for query {question=}')
+        
         return {
             'status': 'found some data sorted by distance / quality - please use the data to answer the users question',
             'results': results
