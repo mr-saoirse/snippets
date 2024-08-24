@@ -38,9 +38,8 @@ or curl...
 
 ```bash
 
-curl request example
 curl -X 'GET' \
-  'http://127.0.0.1:5009/ask?question=what%20is%20the%20capital%20of%20ireland&prefers_streaming=false&raw=true&encode=false' \
+  'http://127.0.0.1:5009/ask?question=capital%20of%20ireland&prefers_streaming=true&encode=false&raw=true' \
   -H 'accept: application/json'
 ```
 
