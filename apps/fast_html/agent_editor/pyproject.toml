@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "agent-editor"
+version = "0.1.0"
+description = "a markdown editorjs example in fasthtml that plays with the idea of object orientated guidance (of LLMs)"
+authors = ["mr-saoirse <amartey@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "agent_editor"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+python-fasthtml = "^0.4.5"
+pydantic = "^2.8.2"
+openai = "^1.42.0"
+duckdb = "^1.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
