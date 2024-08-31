@@ -74,7 +74,6 @@ STYLE = f""" .editor {{
         }}"""
         
 STYLE = """#content {
-     position: relative;
         width: 80%;
         margin: 20px auto;
         padding: 20px;
