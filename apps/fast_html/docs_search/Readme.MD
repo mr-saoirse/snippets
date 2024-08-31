@@ -55,7 +55,7 @@ python main.py
 
 ## About the data
 
-I scrapped the FastHTML docs into a vector store using the code in the utils and the LanceDB embedded database is included with the sample in `data` folder.
+I scraped the FastHTML docs into a vector store using the code in the utils and the LanceDB embedded database is included with the sample in `data` folder.
 The agent will query the store and use GPT-mini by default to generate the answer. You can see this in the notebook
 
 
