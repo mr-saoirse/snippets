@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Markdown Editor with HTML and JavaScript</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: 20px;
+      }
+
+      textarea {
+        width: 600px;
+        height: 200px;
+        margin-bottom: 20px;
+        font-size: 16px;
+        padding: 10px;
+      }
+
+      #preview {
+        width: 600px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        background-color: #f9f9f9;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Markdown Editor</h2>
+    <textarea id="editor" placeholder="Type Markdown here..."></textarea>
+    <div id="preview"></div>
+
+    <script>
+      const editor = document.getElementById("editor");
+      const preview = document.getElementById("preview");
+
+      editor.addEventListener("input", function () {
+        const markdownText = editor.value;
+        const htmlContent = convertMarkdownToHTML(markdownText);
+        preview.innerHTML = htmlContent;
+      });
+
+      function convertMarkdownToHTML(markdown) {
+        // Replace headings
+        markdown = markdown.replace(/^# (.*$)/gim, "<h1>$1</h1>");
+        markdown = markdown.replace(/^## (.*$)/gim, "<h2>$1</h2>");
+        markdown = markdown.replace(/^### (.*$)/gim, "<h3>$1</h3>");
+
+        // Replace bold text
+        markdown = markdown.replace(/\*\*(.*)\*\*/gim, "<b>$1</b>");
+        markdown = markdown.replace(/__(.*)__/gim, "<b>$1</b>");
+
+        // Replace italic text
+        markdown = markdown.replace(/\*(.*)\*/gim, "<i>$1</i>");
+        markdown = markdown.replace(/_(.*)_/gim, "<i>$1</i>");
+
+        // Replace line breaks
+        markdown = markdown.replace(/\n$/gim, "<br>");
+
+        return markdown.trim();
+      }
+    </script>
+  </body>
+</html>

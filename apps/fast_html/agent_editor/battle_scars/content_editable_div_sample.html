@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Real-Time Markdown in ContentEditable</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: 20px;
+      }
+
+      #editor {
+        width: 600px;
+        height: 300px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        background-color: #f9f9f9;
+        overflow-y: auto;
+      }
+
+      #editor h1 {
+        font-size: 1.5em;
+        color: #333;
+      }
+
+      #editor h2 {
+        font-size: 1.3em;
+        color: #444;
+      }
+
+      #editor b {
+        font-weight: bold;
+      }
+
+      #editor i {
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Real-Time Markdown Editor</h2>
+    <div
+      id="editor"
+      contenteditable="true"
+      placeholder="Type Markdown here..."
+    ></div>
+
+    <script>
+      const editor = document.getElementById("editor");
+
+      editor.addEventListener("input", function () {
+        // Get the current content of the editor
+        let content = editor.innerText;
+
+        // Convert Markdown syntax to HTML
+        content = convertMarkdownToHTML(content);
+
+        // Update the content of the editor
+        editor.innerHTML = content;
+
+        // Move the cursor to the end
+        placeCaretAtEnd(editor);
+      });
+
+      function convertMarkdownToHTML(text) {
+        // Replace headings
+        text = text.replace(/^# (.*)$/gm, "<h1>$1</h1>");
+        text = text.replace(/^## (.*)$/gm, "<h2>$1</h2>");
+
+        // Replace bold text
+        text = text.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
+
+        // Replace italic text
+        text = text.replace(/\*(.*?)\*/g, "<i>$1</i>");
+
+        return text;
+      }
+
+      function placeCaretAtEnd(el) {
+        el.focus();
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        range.collapse(false);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+    </script>
+  </body>
+</html>

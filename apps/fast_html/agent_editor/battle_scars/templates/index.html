@@ -1,0 +1,93 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTMX Mentions Example</title>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <style>
+      .dropdown {
+        position: absolute;
+        border: 1px solid #ccc;
+        background: white;
+        display: none;
+      }
+      .dropdown-item {
+        padding: 8px;
+        cursor: pointer;
+      }
+      .dropdown-item:hover {
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea
+      id="mention-input"
+      placeholder="Type @, #, or / to see options..."
+      rows="5"
+      cols="50"
+      hx-trigger="keyup changed delay:300ms"
+      hx-get="/mentions"
+      hx-target="#dropdown"
+      hx-vals="{'command': getCommand(this.value)}"
+    ></textarea>
+
+    <div id="dropdown" class="dropdown"></div>
+
+    <script>
+      function getCommand(value) {
+        // Extract the last word from the input
+        const words = value.split(/\s+/);
+        const lastWord = words[words.length - 1];
+
+        // Return the first character if it's a special command
+        if (["@", "#", "/"].includes(lastWord.charAt(0))) {
+          return lastWord.charAt(0);
+        }
+        return "";
+      }
+
+      document.addEventListener("htmx:afterOnLoad", function (evt) {
+        const dropdown = document.getElementById("dropdown");
+        const response = JSON.parse(evt.detail.xhr.response);
+
+        console.log(response);
+
+        if (response.items.length > 0) {
+          dropdown.style.display = "block";
+        } else {
+          dropdown.style.display = "none";
+        }
+      });
+
+      document
+        .getElementById("dropdown")
+        .addEventListener("click", function (event) {
+          if (event.target.classList.contains("dropdown-item")) {
+            const textarea = document.getElementById("mention-input");
+            const selection = event.target.innerText;
+            const text = textarea.value;
+            const triggerIndex = text.lastIndexOf("#", cursorPosition - 1);
+
+            if (triggerIndex !== -1) {
+              const before = text.slice(0, triggerIndex);
+              console.log(before);
+              const after = text.slice(triggerIndex);
+              console.log(after);
+              console.log(text);
+
+              textarea.value = `${before}#${selectedValue}${after}`;
+            }
+
+            // Insert the selected item into the textarea
+            textarea.value += " " + selection;
+
+            // Hide dropdown
+            document.getElementById("dropdown").style.display = "none";
+          }
+        });
+    </script>
+  </body>
+</html>

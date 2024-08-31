@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ContentEditable with HTMX and JavaScript</title>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      #editor {
+        width: 600px;
+        min-height: 300px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        background-color: #f9f9f9;
+        overflow-y: auto;
+      }
+      .heading {
+        display: block;
+        font-size: 2em;
+        font-weight: bold;
+        margin: 10px 0;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>ContentEditable with /H1 Formatting</h2>
+    <div
+      id="editor"
+      contenteditable="true"
+      hx-trigger="keyup[key==='#']"
+      hx-vals="js:{key: event.key}"
+      hx-post="/ask"
+    ></div>
+    <div id="list"></div>
+  </body>
+</html>
