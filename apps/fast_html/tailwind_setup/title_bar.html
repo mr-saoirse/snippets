@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Bar Layout</title>
+    <link href="main.css" rel="stylesheet" />
+    <script src="https://unpkg.com/feather-icons"></script>
+  </head>
+  <body
+    class="bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300"
+  >
+    <!-- Container -->
+    <div class="min-h-screen flex flex-col">
+      <!-- Navbar -->
+      <header class="bg-white dark:bg-gray-800 shadow w-full p-0 h-12">
+        <div class="flex justify-between items-center h-full px-4">
+          <!-- Logo and Search Input -->
+          <div class="flex items-center">
+            <!-- <img src="FB.svg" alt="Logo" class="h-5 w-auto mr-4" /> -->
+            <div class="h-5 w-auto mr-4 rounded-full">
+              <i
+                data-feather="aperture"
+                class="h-5 w-5 text-gray-700 dark:text-gray-300"
+              ></i>
+            </div>
+            <input
+              type="text"
+              placeholder="Search..."
+              class="h-8 md:w-96 w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none text-gray-600"
+            />
+          </div>
+          <!-- Theme Toggle and User Avatar -->
+          <div class="flex items-center">
+            <!-- Theme Toggle -->
+            <label class="inline-flex items-center cursor-pointer relative">
+              <input type="checkbox" id="theme-toggle" class="sr-only peer" />
+              <div
+                class="relative w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600"
+              ></div>
+
+              <div
+                class="absolute right-1 items-center text-white dark:text-white"
+              >
+                <i data-feather="sun" class="h-4 w-4"></i>
+              </div>
+              <div
+                class="absolute right-6 flex items-center text-white dark:text-white"
+              >
+                <i data-feather="moon" class="h-4 w-4"></i>
+              </div>
+            </label>
+            <!-- User Avatar Icon using Feather Icons -->
+            <div
+              class="ml-2 rounded-full p-1 hover:bg-gray-100 dark:hover:bg-gray-700 hover:cursor-pointer"
+            >
+              <i
+                data-feather="user"
+                class="h-5 w-5 text-gray-500 dark:text-gray-300"
+              ></i>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="flex-grow container mx-auto p-4">
+        <div class="document">
+          <h1 class="text-2xl">hi</h1>
+        </div>
+
+        <!-- Add more content here -->
+      </main>
+    </div>
+
+    <!-- Script to Toggle Dark Mode -->
+    <script>
+      //todo determine default mode
+
+      console.log(localStorage.getItem("theme"));
+      const themeToggle = document.getElementById("theme-toggle");
+      const htmlElement = document.documentElement;
+      themeToggle.addEventListener("change", () => {
+        if (htmlElement.classList.contains("dark")) {
+          htmlElement.classList.remove("dark");
+          localStorage.setItem("theme", "light");
+        } else {
+          htmlElement.classList.add("dark");
+          localStorage.setItem("theme", "dark");
+        }
+      });
+
+      feather.replace();
+    </script>
+  </body>
+</html>
