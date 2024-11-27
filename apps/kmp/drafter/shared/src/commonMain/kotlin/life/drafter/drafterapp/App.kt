@@ -20,10 +20,14 @@ fun App() {
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
-            }
+                        //add ed this block--------
+            var userName: String by remember { mutableStateOf("") }
 
+            GoogleButton( onResponse = {
+                (it as? AuthResponse.Success)?.account?.profile?.name?.let { name ->
+                    userName = name
+                }
+            })
 
         }
     }
