@@ -10,3 +10,4 @@ local.properties
 xcuserdata
 google-services.json
 GoogleService-Info.plist
+.kotlin/metadata
