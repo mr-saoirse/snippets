@@ -1,0 +1,19 @@
+target 'iosApp' do
+  use_frameworks!
+  platform :ios,   '16.0'
+  pod 'Firebase'
+  pod 'FirebaseCore'
+  pod 'FirebaseAuth'
+  pod 'GoogleSignInSwiftSupport'
+  pod 'shared', :path => '../shared'
+
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
+    end
+  end
+end
+
+end

@@ -85,6 +85,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.activity.ktx)
     debugImplementation(compose.uiTooling)
 }
 

@@ -20,8 +20,6 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -47,17 +45,19 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>GIDClientID</key>
-    <string>519161200913-o9fcmea1g9g3t82duv55qgfdchnjgern.apps.googleusercontent.com</string>
-    <key>GIDServerClientID</key>
-    <string>519161200913-tnl45smv27vrq28ma1pajv9sdaia4abu.apps.googleusercontent.com</string>
-    <key>CFBundleURLTypes</key>
-    <array>
-      <dict>
-        <key>CFBundleURLSchemes</key>
-        <array>
-          <string>com.googleusercontent.apps.519161200913-o9fcmea1g9g3t82duv55qgfdchnjgern</string>
-        </array>
-      </dict>
-    </array>
+	<string>610536849644-sdln9enibj1g0noimq63djgm85m6tfs8.apps.googleusercontent.com</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.610536849644-sdln9enibj1g0noimq63djgm85m6tfs8</string>
+			</array>
+		</dict>
+	</array>
+	<key>GIDServerClientID</key>
+	<string>610536849644-q6u3810lr7t62eqt1kcfgnot7m8l324g.apps.googleusercontent.com</string>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 </dict>
 </plist>
