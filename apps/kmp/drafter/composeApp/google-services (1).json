@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "519161200913",
+    "project_id": "drafterapp-2121f",
+    "storage_bucket": "drafterapp-2121f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:519161200913:android:58c8bbde56d2e1d4814cb0",
+        "android_client_info": {
+          "package_name": "drafter.life"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhTppb1rm_waWtConyb4LPzA6SX-5hpX0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
