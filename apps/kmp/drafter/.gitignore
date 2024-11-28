@@ -9,5 +9,6 @@ captures
 local.properties
 xcuserdata
 google-services.json
-GoogleService-Info.plist
+GoogleService-info.plist
 .kotlin/metadata
+Pods
